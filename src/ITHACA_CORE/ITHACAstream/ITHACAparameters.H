@@ -57,7 +57,7 @@ class ITHACAparameters
         bool warnings;
 
         /// type of output format can be fixed or scientific
-        std::_Ios_Fmtflags outytpe;
+        std::_Ios_Fmtflags outtype;
 
         /// Dictionary for input objects from file
         IOdictionary* ITHACAdict;

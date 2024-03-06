@@ -288,10 +288,10 @@ void getModes(
 
         Eigen::saveMarketVector(eigenValueseig,
                                 "./ITHACAoutput/POD/Eigenvalues_" + snapshots[0].name(), para->precision,
-                                para->outytpe);
+                                para->outtype);
         Eigen::saveMarketVector(cumEigenValues,
                                 "./ITHACAoutput/POD/CumEigenvalues_" + snapshots[0].name(), para->precision,
-                                para->outytpe);
+                                para->outtype);
     }
     else
     {
@@ -436,10 +436,10 @@ void getWeightedModes(
 
         Eigen::saveMarketVector(eigenValueseig,
                                 "./ITHACAoutput/POD/Eigenvalues_" + snapshots[0].name(), para->precision,
-                                para->outytpe);
+                                para->outtype);
         Eigen::saveMarketVector(cumEigenValues,
                                 "./ITHACAoutput/POD/CumEigenvalues_" + snapshots[0].name(), para->precision,
-                                para->outytpe);
+                                para->outtype);
     }
     else
     {
@@ -532,10 +532,10 @@ void getModesSVD(
         //exportBases(modes, snapshots, sup);
         Eigen::saveMarketVector(eigenValueseig,
                                 "./ITHACAoutput/POD/Eigenvalues_" + snapshots[0].name(), para->precision,
-                                para->outytpe);
+                                para->outtype);
         Eigen::saveMarketVector(cumEigenValues,
                                 "./ITHACAoutput/POD/CumEigenvalues_" + snapshots[0].name(), para->precision,
-                                para->outytpe);
+                                para->outtype);
     }
     else
     {
@@ -1130,10 +1130,10 @@ void getModes(
         exportBases(modes, snapshots, fieldName, sup);
         Eigen::saveMarketVector(eigenValueseig,
                                 "./ITHACAoutput/POD/Eigenvalues_" + snapshots[0].name(), para->precision,
-                                para->outytpe);
+                                para->outtype);
         Eigen::saveMarketVector(cumEigenValues,
                                 "./ITHACAoutput/POD/CumEigenvalues_" + snapshots[0].name(), para->precision,
-                                para->outytpe);
+                                para->outtype);
     }
     else
     {
@@ -1302,16 +1302,16 @@ std::tuple<List<Eigen::SparseMatrix<double>>, List<Eigen::VectorXd>>
 
         Eigen::saveMarketVector(eigenValueseigA,
                                 "./ITHACAoutput/DEIM/" + MatrixName + "/eigenValuesA", para->precision,
-                                para->outytpe);
+                                para->outtype);
         Eigen::saveMarketVector(eigenValueseigB,
                                 "./ITHACAoutput/DEIM/" + MatrixName + "/eigenValuesB", para->precision,
-                                para->outytpe);
+                                para->outtype);
         Eigen::saveMarketVector(cumEigenValuesA,
                                 "./ITHACAoutput/DEIM/" + MatrixName + "/cumEigenValuesA", para->precision,
-                                para->outytpe);
+                                para->outtype);
         Eigen::saveMarketVector(cumEigenValuesB,
                                 "./ITHACAoutput/DEIM/" + MatrixName + "/cumEigenValuesB", para->precision,
-                                para->outytpe);
+                                para->outtype);
     }
     else
     {
@@ -1529,10 +1529,10 @@ PtrList<GeometricField<Type, PatchField, GeoMesh>>DEIMmodes(
 
         Eigen::saveMarketVector(eigenValueseig,
                                 "./ITHACAoutput/DEIM/eigenValues_" + fieldName, para->precision,
-                                para->outytpe);
+                                para->outtype);
         Eigen::saveMarketVector(cumEigenValues,
                                 "./ITHACAoutput/DEIM/cumEigenValues_" + fieldName, para->precision,
-                                para->outytpe);
+                                para->outtype);
     }
     else
     {
@@ -1662,10 +1662,10 @@ void getModes(
 
         Eigen::saveMarketVector(eigenValueseig,
                                 "./ITHACAoutput/POD/Eigenvalues_" + snapshots[0].name(), para->precision,
-                                para->outytpe);
+                                para->outtype);
         Eigen::saveMarketVector(cumEigenValues,
                                 "./ITHACAoutput/POD/CumEigenvalues_" + snapshots[0].name(), para->precision,
-                                para->outytpe);
+                                para->outtype);
     }
     else
     {

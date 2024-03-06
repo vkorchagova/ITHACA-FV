@@ -439,7 +439,7 @@ using namespace Eigen;
 
 template<typename VectorType>
 bool saveMarketVector (const VectorType& vec, const std::string& filename,
-                       label prec, std::_Ios_Fmtflags outytpe = std::ios_base::scientific)
+                       label prec, std::_Ios_Fmtflags outtype = std::ios_base::scientific)
 {
     typedef typename VectorType::Scalar Scalar;
     std::ofstream out(filename.c_str(), std::ios::out);
@@ -449,7 +449,7 @@ bool saveMarketVector (const VectorType& vec, const std::string& filename,
         return false;
     }
 
-    out.flags(outytpe);
+    out.flags(outtype);
     out.precision(prec);
 
     if (internal::is_same<Scalar, std::complex<float>>::value

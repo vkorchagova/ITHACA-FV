@@ -20,16 +20,24 @@ ITHACAparameters::ITHACAparameters(fvMesh& mesh, Time& localTime)
         )
     );
     precision = ITHACAdict->lookupOrDefault<label>("OutPrecision", 10);
-    word typeout = ITHACAdict->lookupOrDefault<word>("OutType", "fixed");
+    word typeout = ITHACAdict->lookupOrDefault<word>("OutType", "scientific");
 
     if (typeout == "fixed")
     {
-        outytpe = std::ios_base::fixed;
+        outtype = std::ios_base::fixed;
     }
-
-    if (typeout == "scientific")
+    else if (typeout == "scientific")
     {
-        outytpe = std::ios_base::scientific;
+        outtype = std::ios_base::scientific;
+    }
+    else
+    {
+        outtype = std::ios_base::scientific;
+        WarningInFunction
+            << "Unknown OutType " << outtype << nl
+            << "    Available types: fixed, scientific." << nl
+            << "    Default OutType scientific is used." 
+            << endl;
     }
 
     eigensolver = ITHACAdict->lookupOrDefault<word>("EigenSolver", "spectra");
