@@ -477,6 +477,8 @@ void UnsteadyNSTurb::projectSUP(fileName folder, label NU, label NP, label NSUP,
     nNutModes = Nnut;
     L_U_SUPmodes.resize(0);
 
+    Info << "before liftfield.size()" << endl;
+
     if (liftfield.size() != 0)
     {
         for (label k = 0; k < liftfield.size(); k++)
@@ -484,6 +486,8 @@ void UnsteadyNSTurb::projectSUP(fileName folder, label NU, label NP, label NSUP,
             L_U_SUPmodes.append(tmp<volVectorField>(liftfield[k]));
         }
     }
+
+    Info << "before NUmodes" << endl;
 
     if (NUmodes != 0)
     {
@@ -493,6 +497,8 @@ void UnsteadyNSTurb::projectSUP(fileName folder, label NU, label NP, label NSUP,
         }
     }
 
+    Info << "before NSUPmodes" << endl;
+
     if (NSUPmodes != 0)
     {
         for (label k = 0; k < NSUPmodes; k++)
@@ -501,8 +507,12 @@ void UnsteadyNSTurb::projectSUP(fileName folder, label NU, label NP, label NSUP,
         }
     }
 
+    Info << "before ITHACAutilities::check_folder" << endl;
+
     if (ITHACAutilities::check_folder("./ITHACAoutput/Matrices/"))
     {
+        Info << "before B" << endl;
+
         word bStr = "B_" + name(liftfield.size()) + "_" + name(NUmodes) + "_" + name(
                         NSUPmodes);
 
@@ -514,6 +524,8 @@ void UnsteadyNSTurb::projectSUP(fileName folder, label NU, label NP, label NSUP,
         {
             B_matrix = diffusive_term(NUmodes, NPmodes, NSUPmodes);
         }
+
+        Info << "before bt" << endl;
 
         word btStr = "bt_" + name(liftfield.size()) + "_" + name(NUmodes) + "_" + name(
                          NSUPmodes);
@@ -527,6 +539,8 @@ void UnsteadyNSTurb::projectSUP(fileName folder, label NU, label NP, label NSUP,
             btMatrix = btTurbulence(NUmodes, NSUPmodes);
         }
 
+        Info << "before K" << endl;
+
         word kStr = "K_" + name(liftfield.size()) + "_" + name(NUmodes) + "_" + name(
                         NSUPmodes) + "_" + name(NPmodes);
 
@@ -538,6 +552,8 @@ void UnsteadyNSTurb::projectSUP(fileName folder, label NU, label NP, label NSUP,
         {
             K_matrix = pressure_gradient_term(NUmodes, NPmodes, NSUPmodes);
         }
+
+        Info << "before P" << endl;
 
         word pStr = "P_" + name(liftfield.size()) + "_" + name(NUmodes) + "_" + name(
                         NSUPmodes) + "_" + name(NPmodes);
@@ -551,6 +567,8 @@ void UnsteadyNSTurb::projectSUP(fileName folder, label NU, label NP, label NSUP,
             P_matrix = divergence_term(NUmodes, NPmodes, NSUPmodes);
         }
 
+        Info << "before M" << endl;
+
         word mStr = "M_" + name(liftfield.size()) + "_" + name(NUmodes) + "_" + name(
                         NSUPmodes);
 
@@ -563,6 +581,8 @@ void UnsteadyNSTurb::projectSUP(fileName folder, label NU, label NP, label NSUP,
             M_matrix = mass_term(NUmodes, NPmodes, NSUPmodes);
         }
 
+        Info << "before C" << endl;
+
         word C_str = "C_" + name(liftfield.size()) + "_" + name(NUmodes) + "_" + name(
                          NSUPmodes) + "_t";
 
@@ -574,6 +594,8 @@ void UnsteadyNSTurb::projectSUP(fileName folder, label NU, label NP, label NSUP,
         {
             C_tensor = convective_term_tens(NUmodes, NPmodes, NSUPmodes);
         }
+
+        Info << "before ct1" << endl;
 
         word ct1Str = "ct1_" + name(liftfield.size()) + "_" + name(
                           NUmodes) + "_" + name(
@@ -588,6 +610,8 @@ void UnsteadyNSTurb::projectSUP(fileName folder, label NU, label NP, label NSUP,
             ct1Tensor = turbulenceTensor1(NUmodes, NSUPmodes, nNutModes);
         }
 
+        Info << "before ct2" << endl;
+
         word ct2Str = "ct2_" + name(liftfield.size()) + "_" + name(
                           NUmodes) + "_" + name(
                           NSUPmodes) + "_" + name(nNutModes) + "_t";
@@ -601,8 +625,12 @@ void UnsteadyNSTurb::projectSUP(fileName folder, label NU, label NP, label NSUP,
             ct2Tensor = turbulenceTensor2(NUmodes, NSUPmodes, nNutModes);
         }
 
+        Info << "before nutAve.size()" << endl;
+
         if (nutAve.size() != 0)
         {
+            Info << "before ct1Ave" << endl;
+
             word ct1AveStr = "ct1Ave_" + name(liftfield.size()) + "_" + name(
                                  NUmodes) + "_" + name(
                                  NSUPmodes) + "_t";
@@ -616,6 +644,8 @@ void UnsteadyNSTurb::projectSUP(fileName folder, label NU, label NP, label NSUP,
             {
                 ct1AveTensor = turbulenceAveTensor1(NUmodes, NSUPmodes);
             }
+
+            Info << "before ct2Ave" << endl;
 
             word ct2AveStr = "ct2Ave_" + name(liftfield.size()) + "_" + name(
                                  NUmodes) + "_" + name(
@@ -632,6 +662,8 @@ void UnsteadyNSTurb::projectSUP(fileName folder, label NU, label NP, label NSUP,
             }
         }
 
+        Info << "before penalty" << endl;
+
         if (bcMethod == "penalty")
         {
             bcVelVec = bcVelocityVec(NUmodes, NSUPmodes);
@@ -640,6 +672,8 @@ void UnsteadyNSTurb::projectSUP(fileName folder, label NU, label NP, label NSUP,
     }
     else
     {
+        Info << "in else; before B_matrix " << endl;
+
         B_matrix = diffusive_term(NUmodes, NPmodes, NSUPmodes);
         C_tensor = convective_term_tens(NUmodes, NPmodes, NSUPmodes);
         K_matrix = pressure_gradient_term(NUmodes, NPmodes, NSUPmodes);
@@ -661,6 +695,8 @@ void UnsteadyNSTurb::projectSUP(fileName folder, label NU, label NP, label NSUP,
             bcVelMat = bcVelocityMat(NUmodes, NSUPmodes);
         }
     }
+
+    Info << "before exportPython" << endl;
 
     // Export the matrices
     if (para->exportPython)
@@ -686,6 +722,8 @@ void UnsteadyNSTurb::projectSUP(fileName folder, label NU, label NP, label NSUP,
         }
     }
 
+    Info << "before exportMatlab" << endl;
+
     if (para->exportMatlab)
     {
         ITHACAstream::exportMatrix(B_matrix, "B", "matlab", "./ITHACAoutput/Matrices/");
@@ -709,6 +747,8 @@ void UnsteadyNSTurb::projectSUP(fileName folder, label NU, label NP, label NSUP,
         }
     }
 
+    Info << "before exportTxt" << endl;
+
     if (para->exportTxt)
     {
         ITHACAstream::exportMatrix(B_matrix, "B", "eigen", "./ITHACAoutput/Matrices/");
@@ -731,6 +771,8 @@ void UnsteadyNSTurb::projectSUP(fileName folder, label NU, label NP, label NSUP,
         }
     }
 
+    Info << "before bTotalMatrix" << endl;
+
     bTotalMatrix = B_matrix + btMatrix;
     label cSize = NUmodes + NSUPmodes + liftfield.size();
     cTotalTensor.resize(cSize, nNutModes, cSize);
@@ -743,14 +785,20 @@ void UnsteadyNSTurb::projectSUP(fileName folder, label NU, label NP, label NSUP,
     ITHACAstream::exportMatrix(coeffL2, "coeffL2", "matlab",
                                "./ITHACAoutput/Matrices/");
 
+    Info << "before nutAve.size()" << endl;
+
     if (nutAve.size() != 0)
     {
         cTotalAveTensor.resize(cSize, nutAve.size(), cSize);
         cTotalAveTensor = ct1AveTensor + ct2AveTensor;
     }
 
+    Info << "before rbfInterp" << endl;
+
     if (rbfInterp == true && (!Pstream::parRun()))
     {
+        Info << "before ITHACAutilities::check_file" << endl;
+
         if (ITHACAutilities::check_file("./radii.txt"))
         {
             radii = ITHACAstream::readMatrix("./radii.txt");
@@ -763,18 +811,26 @@ void UnsteadyNSTurb::projectSUP(fileName folder, label NU, label NP, label NSUP,
                                           1) * e;
         }
 
+        Info << "before samples.resize" << endl;
+
         samples.resize(nNutModes);
         rbfSplines.resize(nNutModes);
         Eigen::MatrixXd weights;
 
+        Info << "nNutModes = " << nNutModes << endl;
+
         for (label i = 0; i < nNutModes; i++)
         {
+            Info << "before weightName" << endl;
+
             word weightName = "wRBF_N" + name(i + 1) + "_" + name(liftfield.size()) + "_"
                               + name(NUmodes) + "_" + name(NSUPmodes) ;
 
             if (ITHACAutilities::check_file("./ITHACAoutput/weightsSUP/" + weightName))
             {
                 samples[i] = new SPLINTER::DataTable(1, 1);
+
+                Info << "before label j = 0;" << endl;
 
                 for (label j = 0; j < coeffL2.cols(); j++)
                 {
@@ -789,15 +845,30 @@ void UnsteadyNSTurb::projectSUP(fileName folder, label NU, label NP, label NSUP,
             }
             else
             {
+                Info << "before else samples" << endl;
                 samples[i] = new SPLINTER::DataTable(1, 1);
+
+                Info << "before label j = 0; coeffL2.cols() = " << coeffL2.cols() << endl;
 
                 for (label j = 0; j < coeffL2.cols(); j++)
                 {
+                    Info << "j = " << j << endl;
+                    Info << "velRBF.row(j) = ";
+                    for (auto num : velRBF.row(j)) 
+                        Info << num << ' ';
+                    Info << endl;
+                    Info << "coeffL2(i, j) = " << coeffL2(i, j) << endl;
                     samples[i]->addSample(velRBF.row(j), coeffL2(i, j));
+                    Info << "sample OK" << endl;
                 }
+
+                Info << "before new SPLINTER::RBFSpline" << endl;
 
                 rbfSplines[i] = new SPLINTER::RBFSpline(*samples[i],
                                                         SPLINTER::RadialBasisFunctionType::GAUSSIAN, false, radii(i));
+                
+                Info << "before SaveDenseMatrix" << endl;
+
                 ITHACAstream::SaveDenseMatrix(rbfSplines[i]->weights,
                                               "./ITHACAoutput/weightsSUP/", weightName);
                 std::cout << "Constructing RadialBasisFunction for mode " << i + 1 << std::endl;

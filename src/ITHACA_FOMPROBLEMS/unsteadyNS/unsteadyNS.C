@@ -97,6 +97,7 @@ unsteadyNS::unsteadyNS(int argc, char* argv[])
 
 void unsteadyNS::truthSolve(List<scalar> mu_now, fileName folder)
 {
+    Info << "==== in truth solve unsteadyNS" << endl;
     Time& runTime = _runTime();
     surfaceScalarField& phi = _phi();
     fvMesh& mesh = _mesh();
@@ -113,6 +114,9 @@ void unsteadyNS::truthSolve(List<scalar> mu_now, fileName folder)
     runTime.setTime(Times[1], 1);
     runTime.setDeltaT(timeStep);
     nextWrite = startTime;
+
+    Info << "endTime = " << runTime.endTime() << endl;
+    Info << "runTime.times() = " << runTime.times() << endl;
 
     // Set time-dependent velocity BCs for initial condition
     if (timedepbcMethod == "yes")
@@ -140,15 +144,19 @@ void unsteadyNS::truthSolve(List<scalar> mu_now, fileName folder)
     counter++;
     nextWrite += writeEvery;
 
+    Info << "before runTime.run() = " << runTime.run() << endl;
+
     // Start the time loop
     while (runTime.run())
     {
 #include "readTimeControls.H"
 #include "CourantNo.H"
 #include "setDeltaT.H"
+
         runTime.setEndTime(finalTime);
         runTime++;
         Info << "Time = " << runTime.timeName() << nl << endl;
+        Info << "EndTime = " << runTime.endTime() << nl << endl;
 
         // Set time-dependent velocity BCs
         if (timedepbcMethod == "yes")
@@ -215,6 +223,11 @@ void unsteadyNS::truthSolve(List<scalar> mu_now, fileName folder)
     {
         mu.resize(1, 1);
     }
+
+    Info << "mu_samples.rows() = " << mu_samples.rows() 
+         << "; counter = " << counter
+         << "; mu.cols() = " << mu.cols()
+         << "; folder = " << folder << endl;
 
     if (mu_samples.rows() == counter * mu.cols())
     {

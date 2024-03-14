@@ -571,6 +571,11 @@ void steadyNS::projectSUP(fileName folder, label NU, label NP, label NSUP)
         }
     }
 
+    Info << "liftfield.size() = " << liftfield.size()
+         << "; NUmodes = " << NUmodes
+         << "; NSUPmodes = " << NSUPmodes
+         << "; NPmodes = " << NPmodes << endl;
+
     if (ITHACAutilities::check_folder("./ITHACAoutput/Matrices/"))
     {
         word B_str = "B_" + name(liftfield.size()) + "_" + name(NUmodes) + "_" + name(
