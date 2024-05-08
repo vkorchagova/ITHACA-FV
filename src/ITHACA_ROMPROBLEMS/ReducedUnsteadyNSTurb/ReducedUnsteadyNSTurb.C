@@ -581,6 +581,8 @@ void ReducedUnsteadyNSTurb::solveOnlineSUP(Eigen::MatrixXd vel)
         aDer = (y.head(Nphi_u) - newtonObjectSUP.y_old.head(Nphi_u)) / dt;
         tv.resize(dimA);
 
+        Info << "before switch (interChoice) = " << interChoice << endl;
+
         switch (interChoice)
         {
             case 1:
@@ -605,10 +607,20 @@ void ReducedUnsteadyNSTurb::solveOnlineSUP(Eigen::MatrixXd vel)
                 break;
         }
 
+        Info << "before for (int i = 0;" << endl;
+        Info << "tv dimA = " << dimA << endl;
+        Info << "tv.size() = " << tv.size() << endl;
+        Info << "nphiNut = " << nphiNut << endl; 
+        Info << "newtonObjectSUP.gNut.size() = " << newtonObjectSUP.gNut.size() << endl;
+        Info << "problem->rbfSplines.size = " << problem->rbfSplines.size() << endl;
+
         for (int i = 0; i < nphiNut; i++)
         {
+            Info << "i = " << i << endl;
             newtonObjectSUP.gNut(i) = problem->rbfSplines[i]->eval(tv);
         }
+
+        Info << "if (problem->bcMethod == lift)" << endl;
 
         // Change initial condition for the lifting function
         if (problem->bcMethod == "lift")
@@ -1284,9 +1296,12 @@ void ReducedUnsteadyNSTurb::reconstruct(bool exportFields, fileName folder)
     CoeffP.resize(0);
     CoeffNut.resize(0);
 
+    Info << "problem->nutAve.size() = " << problem->nutAve.size() << endl;
+
     for (int k = 0; k < problem->nutAve.size(); k++)
     {
         nutAveNow += gNutAve(k) * problem->nutAve[k];
+        Info << gNutAve(k)  << ' ' <<  problem->nutAve[k][0] << endl;
     }
 
     for (int i = 0; i < online_solution.size(); i++)
@@ -1302,6 +1317,7 @@ void ReducedUnsteadyNSTurb::reconstruct(bool exportFields, fileName folder)
             CoeffU.append(currentUCoeff);
             CoeffP.append(currentPCoeff);
             CoeffNut.append(currentNutCoeff);
+            Info << "currentNutCoeff = " << currentNutCoeff << endl;
             nextWrite += exportEveryIndex;
         }
 

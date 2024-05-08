@@ -88,8 +88,8 @@ int main(int argc, char *argv[])
             mesh,
             IOobject::MUST_READ,
             IOobject::NO_WRITE
-            )
-        );
+        )
+    );
 
     IOdictionary transportProperties
     (
@@ -100,8 +100,8 @@ int main(int argc, char *argv[])
             mesh,
             IOobject::MUST_READ,
             IOobject::NO_WRITE
-            )
-        );
+        )
+    );
 
     word pName(FORCESdict.lookup("pName"));
     word UName(FORCESdict.lookup("UName"));
@@ -119,6 +119,8 @@ int main(int argc, char *argv[])
     forcesDict.add("Aref", FORCESdict.lookup("Aref"));
     forcesDict.add("rhoInf", FORCESdict.lookup("rhoInf"));
     forcesDict.add("rho", FORCESdict.lookup("rho"));
+    //forcesDict.add("directForceDensity", true);
+    //forcesDict.add("fD", "rhoInf");
 
     functionObjects::forceCoeffs fc("FC", runTime, forcesDict);
     functionObjects::forces f("Forces", mesh, forcesDict);
@@ -136,9 +138,9 @@ int main(int argc, char *argv[])
                 runTime.timeName(),
                 mesh,
                 IOobject::MUST_READ
-                ),
+            ),
             mesh
-            );
+        );
 
         U.rename("U");
 
@@ -150,9 +152,9 @@ int main(int argc, char *argv[])
                 runTime.timeName(),
                 mesh,
                 IOobject::MUST_READ
-                ),
+            ),
             mesh
-            );
+        );
 
         P.rename("p");
 
@@ -160,6 +162,7 @@ int main(int argc, char *argv[])
         fc.write();
         f.write();
     }
+
     Info << endl;
     Info << "End\n" << endl;
     return 0;

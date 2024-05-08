@@ -184,7 +184,9 @@ void UnsteadyNSTurb::truthSolve(List<scalar> mu_now, std::string& offlinepath)
             counter++;
             nextWrite += writeEvery;
             writeMu(mu_now);
-            // --- Fill in the mu_samples with parameters (time, mu) to be used for the PODI sample points
+
+            // --- Fill in the mu_samples with parameters (time, mu) 
+            // to be used for the PODI sample points
             mu_samples.conservativeResize(mu_samples.rows() + 1, mu_now.size() + 1);
             mu_samples(mu_samples.rows() - 1, 0) = atof(runTime.timeName().c_str());
 
@@ -780,6 +782,7 @@ void UnsteadyNSTurb::projectSUP(fileName folder, label NU, label NP, label NSUP,
     // Define coeffL2
     coeffL2 = ITHACAutilities::getCoeffs(nutFields,
                                          nutModes, nNutModes);
+    Info << "nutFields.size = " << nutFields.size() << endl;
     ITHACAstream::exportMatrix(coeffL2, "coeffL2", "python",
                                "./ITHACAoutput/Matrices/");
     ITHACAstream::exportMatrix(coeffL2, "coeffL2", "matlab",
@@ -831,6 +834,9 @@ void UnsteadyNSTurb::projectSUP(fileName folder, label NU, label NP, label NSUP,
                 samples[i] = new SPLINTER::DataTable(1, 1);
 
                 Info << "before label j = 0;" << endl;
+                Info << "coeffL2.rows() = " << coeffL2.rows() << endl;
+                Info << "coeffL2.cols() = " << coeffL2.cols() << endl;
+                Info << "velRBF size = " << velRBF.rows() << endl;
 
                 for (label j = 0; j < coeffL2.cols(); j++)
                 {
@@ -841,6 +847,8 @@ void UnsteadyNSTurb::projectSUP(fileName folder, label NU, label NP, label NSUP,
                                               weightName);
                 rbfSplines[i] = new SPLINTER::RBFSpline(*samples[i],
                                                         SPLINTER::RadialBasisFunctionType::GAUSSIAN, weights, radii(i));
+                // rbfSplines[i] = new SPLINTER::RBFSpline(*samples[i],
+                //                                         SPLINTER::RadialBasisFunctionType::GAUSSIAN, false, radii(i));
                 std::cout << "Constructing RadialBasisFunction for mode " << i + 1 << std::endl;
             }
             else
@@ -849,17 +857,12 @@ void UnsteadyNSTurb::projectSUP(fileName folder, label NU, label NP, label NSUP,
                 samples[i] = new SPLINTER::DataTable(1, 1);
 
                 Info << "before label j = 0; coeffL2.cols() = " << coeffL2.cols() << endl;
+                Info << "coeffL2.rows() = " << coeffL2.rows() << endl;
+                Info << "velRBF size = " << velRBF.rows() << endl;
 
                 for (label j = 0; j < coeffL2.cols(); j++)
                 {
-                    Info << "j = " << j << endl;
-                    Info << "velRBF.row(j) = ";
-                    for (auto num : velRBF.row(j)) 
-                        Info << num << ' ';
-                    Info << endl;
-                    Info << "coeffL2(i, j) = " << coeffL2(i, j) << endl;
                     samples[i]->addSample(velRBF.row(j), coeffL2(i, j));
-                    Info << "sample OK" << endl;
                 }
 
                 Info << "before new SPLINTER::RBFSpline" << endl;
